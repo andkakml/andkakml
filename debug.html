@@ -341,7 +341,7 @@
             position: absolute;
             left: 0;
             bottom: 42px;
-            width: 35%;
+            width: 25%;
             height: 68px;
             background: var(--black);
             display: flex;
@@ -356,7 +356,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 0 0 31px;
+            flex: 0 0 35px;
             transition: transform .35s var(--ease);
         }
 
@@ -2815,6 +2815,278 @@
             }
         }
 
+
+        /* =========================================================
+           CONTACT TOAST — larger + more visible
+           Only notification styling/position is changed.
+        ========================================================= */
+        .contact-toast {
+            left: 50%;
+            right: auto;
+            top: 112px;
+            bottom: auto;
+            width: min(480px, calc(100vw - 48px));
+            min-height: 96px;
+            padding: 18px 18px 18px 20px;
+            grid-template-columns: 46px 1fr 34px;
+            gap: 15px;
+            border-radius: 22px;
+            background: rgba(8,8,8,.96);
+            border: 1px solid rgba(255,255,255,.16);
+            box-shadow:
+                0 22px 70px rgba(0,0,0,.28),
+                0 0 0 1px rgba(0,0,0,.04);
+            transform: translate(-50%, -18px) scale(.94);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .contact-toast::before {
+            content: "";
+            position: absolute;
+            left: 18px;
+            right: 18px;
+            top: 0;
+            height: 2px;
+            border-radius: 999px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,.9),
+                transparent
+            );
+            opacity: .75;
+        }
+
+        .contact-toast.is-visible {
+            animation: toastInTop .65s var(--ease) forwards;
+        }
+
+        .contact-toast.is-hiding {
+            animation: toastOutTop .5s var(--ease) forwards;
+        }
+
+        .toast-mark {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 0 0 1px rgba(255,255,255,.18);
+        }
+
+        .toast-mark span {
+            width: 13px;
+            height: 13px;
+        }
+
+        .toast-copy {
+            gap: 6px;
+        }
+
+        .toast-copy strong {
+            font-size: 14px;
+            letter-spacing: 1.8px;
+        }
+
+        .toast-copy small {
+            font-size: 13px;
+            line-height: 1.4;
+            color: #b8b8b8;
+        }
+
+        .toast-close {
+            width: 34px;
+            height: 34px;
+            font-size: 21px;
+        }
+
+        @keyframes toastInTop {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -18px) scale(.94);
+                filter: blur(5px);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, 0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes toastOutTop {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, 0) scale(1);
+                filter: blur(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -10px) scale(.97);
+                filter: blur(2px);
+            }
+        }
+
+        @media (max-width: 760px) {
+            .contact-toast {
+                top: 82px;
+                bottom: auto;
+                left: 12px;
+                right: 12px;
+                width: auto;
+                min-height: 88px;
+                padding: 16px;
+                grid-template-columns: 42px 1fr 30px;
+                gap: 12px;
+                border-radius: 19px;
+            }
+
+            .contact-toast::before {
+                left: 14px;
+                right: 14px;
+            }
+
+            .toast-mark {
+                width: 42px;
+                height: 42px;
+                border-radius: 12px;
+            }
+
+            .toast-copy strong {
+                font-size: 12px;
+                letter-spacing: 1.5px;
+            }
+
+            .toast-copy small {
+                font-size: 12px;
+            }
+
+            .toast-close {
+                width: 30px;
+                height: 30px;
+                font-size: 19px;
+            }
+
+            @keyframes toastInTop {
+                0% {
+                    opacity: 0;
+                    transform: translateY(-14px) scale(.96);
+                    filter: blur(4px);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                    filter: blur(0);
+                }
+            }
+
+            @keyframes toastOutTop {
+                0% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                    filter: blur(0);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(-8px) scale(.98);
+                    filter: blur(2px);
+                }
+            }
+        }
+
+
+        /* =========================================================
+           LANGUAGE SWITCH
+           Hidden during the navbar intro, then revealed after it.
+        ========================================================= */
+        .language-switch {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 4;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            padding: 4px;
+            border: 1px solid #dedede;
+            border-radius: 999px;
+            background: rgba(255,255,255,.88);
+            box-shadow: 0 8px 24px rgba(0,0,0,.055);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translate(-50%, -50%) translateY(-9px) scale(.92);
+        }
+
+        .nav-ready .language-switch {
+            visibility: visible;
+            pointer-events: auto;
+            animation: languageReveal .65s cubic-bezier(.22,1,.36,1) 1.08s forwards;
+        }
+
+        .lang-option {
+            min-width: 38px;
+            height: 28px;
+            padding: 0 10px;
+            border: 0;
+            border-radius: 999px;
+            background: transparent;
+            color: #777;
+            font: 700 10px/1 Arial, Helvetica, sans-serif;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition:
+                color .3s ease,
+                background .3s ease,
+                transform .3s var(--ease);
+        }
+
+        .lang-option:hover {
+            color: #111;
+            transform: translateY(-1px);
+        }
+
+        .lang-option.is-active {
+            background: #050505;
+            color: #fff;
+        }
+
+        .lang-divider {
+            width: 1px;
+            height: 13px;
+            background: #d5d5d5;
+            opacity: .8;
+        }
+
+        @keyframes languageReveal {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) translateY(-9px) scale(.92);
+                filter: blur(4px);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @media (max-width: 760px) {
+            .language-switch {
+                left: 50%;
+                padding: 3px;
+                box-shadow: 0 7px 18px rgba(0,0,0,.05);
+            }
+
+            .lang-option {
+                min-width: 34px;
+                height: 27px;
+                padding: 0 8px;
+                font-size: 9px;
+            }
+        }
+
 </style>
 </head>
 
@@ -2831,6 +3103,15 @@
         <div class="nav-inner">
 
             <a class="brand" href="#home" id="brandHome">AKMAL'S.</a>
+            <div class="language-switch" id="languageSwitch"
+                 role="group" aria-label="Language selector">
+                <button class="lang-option is-active" type="button"
+                        data-lang="en" aria-pressed="true">EN</button>
+                <span class="lang-divider" aria-hidden="true"></span>
+                <button class="lang-option" type="button"
+                        data-lang="id" aria-pressed="false">ID</button>
+            </div>
+
 
             <nav class="nav-links" aria-label="Main navigation">
                 <a class="nav-link" href="#about" aria-label="ABOUT">
@@ -3868,6 +4149,353 @@
             });
 
             elements.forEach(element => observer.observe(element));
+        });
+    </script>
+
+
+
+    <script>
+        /* =========================================================
+           LANGUAGE SWITCHER
+           Default: English.
+           Switches visible portfolio copy between English / Indonesian.
+        ========================================================== */
+        document.addEventListener("DOMContentLoaded", () => {
+            const languageSwitch = document.getElementById("languageSwitch");
+            if (!languageSwitch) return;
+
+            const navbar = document.getElementById("navbar");
+            const options = [...languageSwitch.querySelectorAll(".lang-option")];
+
+            const navLinks = [...document.querySelectorAll(".nav-link")];
+            const mobileLinks = [...document.querySelectorAll(".mobile-link")];
+            const heroSubtitle = document.querySelector(".hero-subtitle");
+            const roles = [...document.querySelectorAll(".role")];
+            const aboutHeading = document.querySelector(".about-heading");
+            const aboutLyric = document.querySelector(".about-lyric");
+            const skillLabels = [...document.querySelectorAll(".skill-label")];
+            const projectsKicker = document.querySelector(".projects-head .contact-kicker");
+            const projectsTitle = document.querySelector(".projects-title");
+            const projectsIntro = document.querySelector(".projects-intro");
+            const projectCards = [...document.querySelectorAll(".project-card")];
+
+            const contactKicker = document.querySelector(".contact-kicker");
+            const contactTitle = document.querySelector(".contact-title");
+            const contactCopy = document.querySelector(".contact-copy");
+            const formLabels = {
+                name: document.querySelector('label[for="contact-name"]'),
+                email: document.querySelector('label[for="contact-email"]'),
+                subject: document.querySelector('label[for="contact-subject"]'),
+                message: document.querySelector('label[for="contact-message"]')
+            };
+            const inputs = {
+                name: document.getElementById("contact-name"),
+                email: document.getElementById("contact-email"),
+                subject: document.getElementById("contact-subject"),
+                message: document.getElementById("contact-message")
+            };
+            const submitButton = document.querySelector(".contact-submit span:first-child");
+            const toastTitle = document.querySelector(".toast-copy strong");
+            const toastCopy = document.querySelector(".toast-copy small");
+            const toastClose = document.querySelector(".toast-close");
+            const footerCopy = document.querySelector(".footer-copy");
+            const projectModal = document.getElementById("projectModal");
+            const projectModalKicker = document.getElementById("projectModalKicker");
+            const projectModalTitle = document.getElementById("projectModalTitle");
+            const projectModalDescription = document.getElementById("projectModalDescription");
+            const projectModalTags = document.getElementById("projectModalTags");
+            const projectModalMetaLabels = [...document.querySelectorAll(".modal-meta-label")];
+            const projectModalRole = document.querySelectorAll(".modal-meta-value")[1];
+            const projectModalStatus = document.querySelectorAll(".modal-meta-value")[2];
+            const projectModalClose = document.getElementById("projectModalClose");
+
+            const originalProjectCards = projectCards.map(card => ({
+                card,
+                number: card.querySelector(".project-number"),
+                name: card.querySelector(".project-name"),
+                tags: card.querySelector(".project-tags"),
+                en: {
+                    title: card.dataset.title || "PROJECT",
+                    kicker: card.dataset.kicker || "SELECTED WORK",
+                    tags: card.dataset.tags || "",
+                    description: card.dataset.description || "",
+                    aria: card.getAttribute("aria-label") || ""
+                }
+            }));
+
+            const translations = {
+                en: {
+                    nav: ["ABOUT", "PROJECT", "CONTACT"],
+                    heroSubtitle: "Informatics Engineering.",
+                    roles: ["UI/UX Designer", "Frontend Engineer", "HTML", "Laravel", "Python", "Java", "C++", "JavaScript"],
+                    aboutHeading: "ABOUTS",
+                    aboutLyric: [
+                        ["I", "GRADUATED", "FROM", "MARHAS"],
+                        ["MARGAHAYU", "VOCATIONAL"],
+                        ["MAJORING", "IN", "COMPUTER", "ENGINEERING"],
+                        ["&", "I", "CAN", "WORK", "BOTH", "IN", "TEAMS", "AND", "I'M"],
+                        ["PROFICIENT", "IN", "OPERATING"],
+                        ["COMPUTERS", "AND", "VARIOUS", "SOFTWARE."]
+                    ],
+                    skillLabels: ["UI/UX Design", "Programming", "Editing"],
+                    projectsKicker: "SELECTED WORK / 01—04",
+                    projectsTitle: "PROJECTS.",
+                    projectsIntro: "A collection of interfaces, web experiences and digital work. The layout intentionally breaks the usual portfolio card grid to keep the presentation visual and editorial.",
+                    cardName: "PROJECT NAME",
+                    contactKicker: "LET'S CONNECT",
+                    contactTitle: ["LET'S", "TALK."],
+                    contactCopy: "Tell me a little about your project, idea, or collaboration. I’ll get back to you through the contact details you provide.",
+                    labels: ["Name", "Email", "Subject", "Message"],
+                    placeholders: ["Your name", "you@example.com", "Project / collaboration", "Tell me about your project..."],
+                    send: "Send message",
+                    toastTitle: "MESSAGE CAPTURED",
+                    toastCopy: "Your message is ready to be received.",
+                    footer: "© 2026 Akmal's. All rights reserved.",
+                    modalMeta: ["Tools", "Role", "Status"],
+                    modalRole: "UI/UX Designer · Frontend",
+                    modalStatus: "Selected work",
+                    modalClose: "Close project details",
+                    title: "Akmal's — Informatics Engineering Portfolio"
+                },
+                id: {
+                    nav: ["TENTANG", "PROYEK", "KONTAK"],
+                    heroSubtitle: "Teknik Informatika.",
+                    roles: ["Desainer UI/UX", "Frontend Engineer", "HTML", "Laravel", "Python", "Java", "C++", "JavaScript"],
+                    aboutHeading: "TENTANG",
+                    aboutLyric: [
+                        ["SAYA", "LULUS", "DARI"],
+                        ["SMK", "MARHAS", "MARGAHAYU"],
+                        ["JURUSAN", "TEKNIK", "KOMPUTER"],
+                        ["&", "SAYA", "DAPAT", "BEKERJA", "DALAM", "TIM"],
+                        ["DAN", "MAHIR", "MENGOPERASIKAN"],
+                        ["KOMPUTER", "SERTA", "BERBAGAI", "PERANGKAT", "LUNAK."]
+                    ],
+                    skillLabels: ["Desain UI/UX", "Pemrograman", "Penyuntingan"],
+                    projectsKicker: "KARYA PILIHAN / 01—04",
+                    projectsTitle: "PROYEK.",
+                    projectsIntro: "Kumpulan antarmuka, pengalaman web, dan karya digital. Tata letak ini sengaja memecah pola grid portofolio agar tampil lebih visual dan editorial.",
+                    cardName: "NAMA PROYEK",
+                    contactKicker: "MARI TERHUBUNG",
+                    contactTitle: ["MARI", "BICARA."],
+                    contactCopy: "Ceritakan sedikit tentang proyek, ide, atau kolaborasi yang kamu miliki. Saya akan menghubungi kembali melalui detail kontak yang kamu berikan.",
+                    labels: ["Nama", "Email", "Subjek", "Pesan"],
+                    placeholders: ["Nama kamu", "kamu@example.com", "Proyek / kolaborasi", "Ceritakan tentang proyek kamu..."],
+                    send: "Kirim pesan",
+                    toastTitle: "PESAN DITERIMA",
+                    toastCopy: "Pesan kamu siap untuk diterima.",
+                    footer: "© 2026 Akmal's. Seluruh hak dilindungi.",
+                    modalMeta: ["Alat", "Peran", "Status"],
+                    modalRole: "Desainer UI/UX · Frontend",
+                    modalStatus: "Karya pilihan",
+                    modalClose: "Tutup detail proyek",
+                    title: "Akmal's — Portofolio Teknik Informatika"
+                }
+            };
+
+            const projectTranslations = {
+                en: {
+                    1: {
+                        title: "Web Experience",
+                        kicker: "01 / UI · WEB",
+                        tags: "UI/UX · Figma · Frontend",
+                        description: "A digital interface focused on hierarchy, visual rhythm, and responsive interaction.",
+                        aria: "Open Web Experience project details"
+                    },
+                    2: {
+                        title: "Visual Identity",
+                        kicker: "02 / BRAND",
+                        tags: "Identity · Visual Design",
+                        description: "A visual direction exploring typography, composition, and a consistent digital identity.",
+                        aria: "Open Visual Identity project details"
+                    },
+                    3: {
+                        title: "Frontend Build",
+                        kicker: "03 / FRONTEND",
+                        tags: "HTML · CSS · JavaScript",
+                        description: "A frontend implementation translating a visual concept into a polished interactive web page.",
+                        aria: "Open Frontend Build project details"
+                    },
+                    4: {
+                        title: "Creative Project",
+                        kicker: "04 / OTHER",
+                        tags: "Creative · Digital",
+                        description: "An experimental digital piece combining layout, motion, and visual storytelling.",
+                        aria: "Open Creative Project project details"
+                    }
+                },
+                id: {
+                    1: {
+                        title: "Pengalaman Web",
+                        kicker: "01 / UI · WEB",
+                        tags: "UI/UX · Figma · Frontend",
+                        description: "Antarmuka digital yang berfokus pada hierarki, ritme visual, dan interaksi responsif.",
+                        aria: "Buka detail proyek Pengalaman Web"
+                    },
+                    2: {
+                        title: "Identitas Visual",
+                        kicker: "02 / MEREK",
+                        tags: "Identitas · Desain Visual",
+                        description: "Eksplorasi arah visual melalui tipografi, komposisi, dan identitas digital yang konsisten.",
+                        aria: "Buka detail proyek Identitas Visual"
+                    },
+                    3: {
+                        title: "Implementasi Frontend",
+                        kicker: "03 / FRONTEND",
+                        tags: "HTML · CSS · JavaScript",
+                        description: "Implementasi frontend yang menerjemahkan konsep visual menjadi halaman web interaktif yang rapi.",
+                        aria: "Buka detail proyek Implementasi Frontend"
+                    },
+                    4: {
+                        title: "Proyek Kreatif",
+                        kicker: "04 / LAINNYA",
+                        tags: "Kreatif · Digital",
+                        description: "Eksperimen digital yang menggabungkan tata letak, gerakan, dan storytelling visual.",
+                        aria: "Buka detail proyek Proyek Kreatif"
+                    }
+                }
+            };
+
+            const setAnimatedNavText = (element, value) => {
+                if (!element) return;
+                element.innerHTML = [...value].map((char, index) => {
+                    const safe = char === " " ? "&nbsp;" : char;
+                    return `<span class="nav-letter" style="--i:${index}">${safe}</span>`;
+                }).join("");
+            };
+
+            const setAboutLyric = (linesData) => {
+                if (!aboutLyric) return;
+
+                aboutLyric.innerHTML = linesData.map(line =>
+                    `<span class="lyric-line">${
+                        line.map(word => `<span class="lyric-word">${word}</span>`).join("")
+                    }</span>`
+                ).join("");
+
+                aboutLyric.querySelectorAll(".lyric-word").forEach((word, index) => {
+                    word.style.setProperty("--lyric-index", index);
+                });
+            };
+
+            const applyLanguage = language => {
+                const t = translations[language] || translations.en;
+
+                document.documentElement.lang = language;
+                document.title = t.title;
+
+                navLinks.forEach((link, index) => setAnimatedNavText(link, t.nav[index]));
+                mobileLinks.forEach((link, index) => {
+                    link.textContent = t.nav[index];
+                });
+
+                if (heroSubtitle) heroSubtitle.textContent = t.heroSubtitle;
+
+                roles.forEach((role, index) => {
+                    if (t.roles[index]) role.textContent = t.roles[index];
+                });
+
+                if (aboutHeading) aboutHeading.textContent = t.aboutHeading;
+                setAboutLyric(t.aboutLyric);
+
+                skillLabels.forEach((label, index) => {
+                    if (t.skillLabels[index]) label.textContent = t.skillLabels[index];
+                });
+
+                if (projectsKicker) projectsKicker.textContent = t.projectsKicker;
+                if (projectsTitle) projectsTitle.textContent = t.projectsTitle;
+                if (projectsIntro) projectsIntro.textContent = t.projectsIntro;
+
+                originalProjectCards.forEach(({card, number, name, tags}, index) => {
+                    const project = projectTranslations[language][index + 1];
+                    if (!project) return;
+
+                    number.textContent = project.kicker;
+                    name.textContent = t.cardName;
+                    tags.textContent = project.tags;
+
+                    card.dataset.title = project.title;
+                    card.dataset.kicker = project.kicker;
+                    card.dataset.tags = project.tags;
+                    card.dataset.description = project.description;
+                    card.setAttribute("aria-label", project.aria);
+                });
+
+                if (contactKicker) contactKicker.textContent = t.contactKicker;
+                if (contactTitle) {
+                    const spans = contactTitle.querySelectorAll("span");
+                    spans.forEach((span, index) => {
+                        if (t.contactTitle[index]) span.textContent = t.contactTitle[index];
+                    });
+                }
+                if (contactCopy) contactCopy.textContent = t.contactCopy;
+
+                const labelValues = Object.values(formLabels);
+                labelValues.forEach((label, index) => {
+                    if (label && t.labels[index]) label.textContent = t.labels[index];
+                });
+
+                inputs.name?.setAttribute("placeholder", t.placeholders[0]);
+                inputs.email?.setAttribute("placeholder", t.placeholders[1]);
+                inputs.subject?.setAttribute("placeholder", t.placeholders[2]);
+                inputs.message?.setAttribute("placeholder", t.placeholders[3]);
+
+                if (submitButton) submitButton.textContent = t.send;
+                if (toastTitle) toastTitle.textContent = t.toastTitle;
+                if (toastCopy) toastCopy.textContent = t.toastCopy;
+                if (toastClose) toastClose.setAttribute("aria-label", language === "id" ? "Tutup notifikasi" : "Close notification");
+                if (footerCopy) footerCopy.textContent = t.footer;
+
+                projectModalMetaLabels.forEach((label, index) => {
+                    if (t.modalMeta[index]) label.textContent = t.modalMeta[index];
+                });
+                if (projectModalRole) projectModalRole.textContent = t.modalRole;
+                if (projectModalStatus) projectModalStatus.textContent = t.modalStatus;
+                if (projectModalClose) projectModalClose.setAttribute("aria-label", t.modalClose);
+
+                // Keep an already-open project modal synchronized with the selected language.
+                if (projectModal?.classList.contains("is-open")) {
+                    const activeCard = window.__activeProjectCardForLanguage;
+                    if (activeCard) {
+                        const projectIndex = Number(activeCard.dataset.project);
+                        const current = projectTranslations[language][projectIndex];
+                        if (current) {
+                            if (projectModalKicker) projectModalKicker.textContent = current.kicker;
+                            if (projectModalTitle) projectModalTitle.textContent = current.title;
+                            if (projectModalDescription) projectModalDescription.textContent = current.description;
+                            if (projectModalTags) projectModalTags.textContent = current.tags;
+                        }
+                    }
+                }
+
+                options.forEach(option => {
+                    const active = option.dataset.lang === language;
+                    option.classList.toggle("is-active", active);
+                    option.setAttribute("aria-pressed", active ? "true" : "false");
+                });
+
+                languageSwitch.setAttribute(
+                    "aria-label",
+                    language === "id" ? "Pilih bahasa, Indonesia aktif" : "Language selector, English active"
+                );
+            };
+
+            options.forEach(option => {
+                option.addEventListener("click", () => {
+                    const language = option.dataset.lang;
+                    if (!translations[language]) return;
+                    applyLanguage(language);
+                });
+            });
+
+            // Default language remains English on each fresh page load.
+            applyLanguage("en");
+
+            // Give the project-modal script a reference to whichever card is open.
+            projectCards.forEach(card => {
+                card.addEventListener("click", () => {
+                    window.__activeProjectCardForLanguage = card;
+                });
+            });
         });
     </script>
 
