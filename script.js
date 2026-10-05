@@ -1068,4 +1068,18 @@ document.addEventListener("click", event => {
     event.preventDefault();
     target.scrollIntoView(); // ikut scroll-behavior di CSS (smooth, dan otomatis mati saat reduced-motion)
     history.replaceState(null, "", window.location.pathname + window.location.search);
+
+    /* Bersihkan hash yang datang dari URL yang diketik / dibuka langsung. */
+const cleanHashFromUrl = () => {
+    if (!window.location.hash) return;
+
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    const target = document.getElementById(id);
+    if (target) target.scrollIntoView();
+
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+    };
+
+    window.addEventListener("load", cleanHashFromUrl);
+    window.addEventListener("hashchange", cleanHashFromUrl);
 });
