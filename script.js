@@ -1056,7 +1056,14 @@ document.addEventListener("DOMContentLoaded", () => {
    CLEAN URL NAVIGATION
    Klik link anchor (#about, #contact, dst.) tetap scroll ke
    section-nya, tapi URL tidak diberi "#..." di belakangnya.
+   Hash yang datang dari URL yang diketik / dibuka langsung
+   juga dibersihkan setelah halaman scroll ke targetnya.
 ========================================================= */
+const cleanUrl = () => {
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+};
+
+// 1) Klik link anchor di dalam halaman
 document.addEventListener("click", event => {
     const link = event.target.closest('a[href^="#"]');
     if (!link) return;
@@ -1067,9 +1074,10 @@ document.addEventListener("click", event => {
 
     event.preventDefault();
     target.scrollIntoView(); // ikut scroll-behavior di CSS (smooth, dan otomatis mati saat reduced-motion)
-    history.replaceState(null, "", window.location.pathname + window.location.search);
+    cleanUrl();
+});
 
-    /* Bersihkan hash yang datang dari URL yang diketik / dibuka langsung. */
+// 2) Hash dari URL yang diketik / dibuka langsung
 const cleanHashFromUrl = () => {
     if (!window.location.hash) return;
 
@@ -1077,9 +1085,8 @@ const cleanHashFromUrl = () => {
     const target = document.getElementById(id);
     if (target) target.scrollIntoView();
 
-    history.replaceState(null, "", window.location.pathname + window.location.search);
-    };
+    cleanUrl();
+};
 
-    window.addEventListener("load", cleanHashFromUrl);
-    window.addEventListener("hashchange", cleanHashFromUrl);
-});
+window.addEventListener("load", cleanHashFromUrl);
+window.addEventListener("hashchange", cleanHashFromUrl);
