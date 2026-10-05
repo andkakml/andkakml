@@ -1049,4 +1049,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Default language remains English on each fresh page load.
     applyLanguage("en");
+
+});
+
+/* =========================================================
+   CLEAN URL NAVIGATION
+   Klik link anchor (#about, #contact, dst.) tetap scroll ke
+   section-nya, tapi URL tidak diberi "#..." di belakangnya.
+========================================================= */
+document.addEventListener("click", event => {
+    const link = event.target.closest('a[href^="#"]');
+    if (!link) return;
+
+    const id = link.getAttribute("href").slice(1);
+    const target = id ? document.getElementById(id) : null;
+    if (!target) return;
+
+    event.preventDefault();
+    target.scrollIntoView(); // ikut scroll-behavior di CSS (smooth, dan otomatis mati saat reduced-motion)
+    history.replaceState(null, "", window.location.pathname + window.location.search);
 });
