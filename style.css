@@ -10,6 +10,8 @@
     6. RESPONSIVE + MOBILE OVERRIDES
     7. LANGUAGE SWITCH
     8. ACCESSIBILITY / UTILITIES
+    9. PAGE LOADER
+   10. HIDDEN SCROLLBAR
 ========================================================= */
 
 /* =========================================================
@@ -3180,4 +3182,133 @@ button:focus-visible,
 .form-row textarea:focus-visible {
     outline: 2px solid #050505;
     outline-offset: 4px;
+}
+
+/* =========================================================
+   PAGE LOADER
+   Overlay layar penuh dengan GIF pixel art (Assets/loadingpage1.gif).
+   - Terlihat selama <html> punya kelas .is-loading (diatur head script + script.js).
+   - Tanpa JavaScript kelas itu tidak ada, jadi loader otomatis tersembunyi.
+   - Warna latar disamakan dengan latar GIF agar menyatu tanpa bingkai.
+   - Ukuran GIF kelipatan 100px (GIF 500px = grid 5px) supaya piksel tetap tajam.
+
+   KOREOGRAFI KELUAR (dimulai saat .is-loading dilepas):
+     0.00s  GIF mengecil & memudar            (--loader-gif-out)
+     0.20s  tirai (latar loader) terangkat    (--loader-curtain-delay / -duration)
+     0.48s  animasi masuk halaman dimulai     (--loader-ready-ms, dibaca script.js)
+     1.25s  tirai habis -> elemen dilepas dari DOM
+   Ubah angka di bawah untuk menyetel tempo; script.js mengikuti otomatis.
+========================================================= */
+:root {
+    --loader-bg: #b8c2b9;
+    --loader-gif-out: .35s;
+    --loader-curtain-delay: .2s;
+    --loader-curtain-duration: 1.05s;
+    --loader-ease: cubic-bezier(.76, 0, .24, 1);
+    --loader-ready-ms: 480; /* tanpa satuan: dibaca JS untuk memulai animasi halaman */
+}
+
+html.is-loading {
+    overflow: hidden;
+    scrollbar-gutter: stable; /* cegah halaman bergeser saat scrollbar muncul kembali */
+}
+
+.loader {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: grid;
+    place-items: center;
+    background: var(--loader-bg);
+    transform: translate3d(0, 0, 0);
+    visibility: visible;
+    will-change: transform; /* naik ke layer GPU lebih awal agar frame pertama tirai tidak tersendat */
+}
+
+html:not(.is-loading) .loader {
+    transform: translate3d(0, -100%, 0);
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        transform var(--loader-curtain-duration) var(--loader-ease) var(--loader-curtain-delay),
+        visibility 0s linear calc(var(--loader-curtain-delay) + var(--loader-curtain-duration));
+}
+
+.loader-gif {
+    width: 400px;
+    height: auto;
+    image-rendering: pixelated;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+/* GIF pergi lebih dulu supaya tidak menumpuk di atas konten yang mulai muncul. */
+html:not(.is-loading) .loader-gif {
+    opacity: 0;
+    transform: scale(.9);
+    transition:
+        opacity var(--loader-gif-out) cubic-bezier(.4, 0, .2, 1),
+        transform var(--loader-gif-out) cubic-bezier(.4, 0, .2, 1);
+}
+
+.loader-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+    .loader-gif {
+        width: 300px;
+    }
+}
+
+@media (max-width: 340px) {
+    .loader-gif {
+        width: 200px;
+    }
+}
+
+/* Reduced motion: tanpa gerakan tirai, cukup memudar singkat. */
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --loader-ready-ms: 0;
+    }
+
+    html:not(.is-loading) .loader {
+        transform: none;
+        opacity: 0;
+        transition: opacity .3s ease, visibility 0s linear .3s;
+    }
+
+    html:not(.is-loading) .loader-gif {
+        transform: none;
+        transition: none;
+    }
+}
+
+/* =========================================================
+   HIDDEN SCROLLBAR
+   Scrollbar disembunyikan agar tampilan bersih. Scroll tetap berfungsi
+   normal lewat roda mouse, trackpad, sentuhan, dan keyboard
+   (Space, PageUp/PageDown, Home/End, panah).
+   Berlaku untuk halaman dan kartu detail proyek (modal).
+========================================================= */
+html,
+.project-modal-card {
+    scrollbar-width: none;        /* Firefox */
+    -ms-overflow-style: none;     /* Edge/IE lama */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.project-modal-card::-webkit-scrollbar {
+    display: none;                /* Chrome, Safari, Edge */
+    width: 0;
+    height: 0;
 }

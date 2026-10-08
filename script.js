@@ -5,12 +5,15 @@
    berjalan setelah HTML selesai di-parse.
 
    Daftar modul:
-    1. NAVBAR INTRO            6. HERO PARALLAX + ENJOYNEERING TRAIL
-    2. MOBILE NAVIGATION       7. CUSTOM CURSOR
-    3. ACTIVE NAVIGATION       8. VINYL PLATTER
-    4. MOBILE HERO CODE PANEL  9. SCROLL REVEAL
-    5. PROJECT DETAIL MODAL   10. CONTACT FORM
-                              11. LANGUAGE SWITCHER
+    0. PAGE LOADER             6. HERO PARALLAX + ENJOYNEERING TRAIL
+    1. NAVBAR INTRO            7. CUSTOM CURSOR
+    2. MOBILE NAVIGATION       8. VINYL PLATTER
+    3. ACTIVE NAVIGATION       9. SCROLL REVEAL
+    4. MOBILE HERO CODE PANEL 10. CONTACT FORM
+    5. PROJECT DETAIL MODAL   11. LANGUAGE SWITCHER
+
+   Navbar intro dan scroll reveal menunggu loader selesai
+   lewat onAppReady() (lihat modul PAGE LOADER).
 ========================================================= */
 
 /* =========================================================
@@ -24,21 +27,108 @@
 ========================================================= */
 const SITE_CONFIG = {
     formEndpoint: "",
-    contactEmail: ""
+    contactEmail: "",
+
+    // Page loader (milidetik)
+    // loaderMinMs : tampil minimal segini lama (GIF = 840 ms/putaran, 1680 = 2 putaran).
+    //               Isi 0 jika loader boleh hilang secepat halaman siap.
+    // loaderMaxMs : batas tunggu; loader tetap ditutup walau ada aset yang lambat.
+    loaderMinMs: 1680,
+    loaderMaxMs: 8000
 };
 
 /* State bersama antar modul. */
 const appState = {
-    activeProjectCard: null
+    activeProjectCard: null,
+    ready: false          // true setelah loader selesai
 };
+
+/* Jalankan callback setelah loader selesai (atau langsung jika sudah selesai). */
+const onAppReady = callback => {
+    if (appState.ready) {
+        callback();
+    } else {
+        document.addEventListener("app:ready", callback, { once: true });
+    }
+};
+
+/* =========================================================
+   PAGE LOADER
+   Halaman dianggap siap setelah: semua aset dimuat (event load),
+   font siap, foto hero ter-decode, dan durasi minimum terpenuhi.
+   Batas maksimum memastikan loader tidak tertahan oleh aset lambat.
+
+   Koreografi keluar (GIF memudar -> tirai terangkat) ada di CSS,
+   bagian PAGE LOADER di style.css. JS hanya memicu transisinya dan
+   membaca --loader-ready-ms dari CSS, supaya animasi masuk halaman
+   (intro navbar & reveal) selalu sinkron dengan gerakan tirai.
+========================================================= */
+(() => {
+    const root = document.documentElement;
+    const loader = document.getElementById("loader");
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let finishing = false;
+
+    const readCssNumber = (name, fallback) => {
+        const value = parseFloat(getComputedStyle(root).getPropertyValue(name));
+        return Number.isFinite(value) ? value : fallback;
+    };
+
+    const finish = () => {
+        if (finishing) return;
+        finishing = true;
+
+        // Dua frame agar kondisi awal tergambar bersih sebelum transisi dimulai (tanpa patah di frame pertama).
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            root.classList.remove("is-loading"); // memulai koreografi keluar (CSS)
+
+            window.setTimeout(() => {
+                appState.ready = true;
+                document.dispatchEvent(new Event("app:ready"));
+            }, readCssNumber("--loader-ready-ms", 600));
+
+            // Lepas elemen (dan GIF-nya) dari DOM begitu tirai selesai; timeout sebagai cadangan.
+            const remove = () => loader?.remove();
+            loader?.addEventListener("transitionend", event => {
+                if (event.target === loader && (event.propertyName === "transform" || event.propertyName === "opacity")) {
+                    remove();
+                }
+            });
+            window.setTimeout(remove, 2500);
+        }));
+    };
+
+    const pageLoaded = document.readyState === "complete"
+        ? Promise.resolve()
+        : new Promise(resolve => window.addEventListener("load", resolve, { once: true }));
+
+    const fontsReady = document.fonts?.ready ?? Promise.resolve();
+
+    // Decode foto hero sekarang, bukan di tengah animasi masuk (mencegah gambar "muncul kasar").
+    const heroImage = document.querySelector(".hero-photo-image");
+    const heroDecoded = heroImage?.decode ? heroImage.decode().catch(() => {}) : Promise.resolve();
+
+    const minimumTime = new Promise(resolve =>
+        window.setTimeout(resolve, loader && !reducedMotion ? SITE_CONFIG.loaderMinMs : 0)
+    );
+    const maximumTime = new Promise(resolve =>
+        window.setTimeout(resolve, SITE_CONFIG.loaderMaxMs)
+    );
+
+    Promise.race([
+        Promise.all([pageLoaded, fontsReady, heroDecoded, minimumTime]),
+        maximumTime
+    ]).then(finish);
+})();
 
 /* =========================================================
    NAVBAR INTRO
    AKMAL'S appears first. After a short pause it moves left while
    navigation emerges from around its right side.
    Mobile skips the intro for a faster first paint.
+   Dimulai setelah loader selesai.
 ========================================================= */
-window.addEventListener("load", () => {
+onAppReady(() => {
     const navbar = document.getElementById("navbar");
     if (!navbar) return;
 
@@ -185,6 +275,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let lastFocused = null;
 
+    const focusWhenVisible = (element, triesLeft = 30) => {
+        if (!element) return;
+        element.focus();
+        if (document.activeElement === element || triesLeft <= 0) return;
+        requestAnimationFrame(() => focusWhenVisible(element, triesLeft - 1));
+    };
+
     const openProject = card => {
         const sourceImage = card.querySelector(".project-media img");
         const media = card.querySelector(".project-media");
@@ -209,8 +306,9 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.classList.add("is-open");
         modal.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
-        // focus() gagal bila elemen masih visibility:hidden (transisi), jadi tunda sebentar.
-        window.setTimeout(() => closeButton?.focus(), 60);
+        // focus() gagal diam-diam selama modal masih visibility:hidden (awal transisi),
+        // jadi coba lagi tiap frame sampai fokus benar-benar berpindah.
+        focusWhenVisible(closeButton);
     };
 
     const closeProject = () => {
@@ -603,7 +701,8 @@ document.addEventListener("DOMContentLoaded", () => {
         rootMargin: "0px 0px -45px 0px"
     });
 
-    elements.forEach(element => observer.observe(element));
+    // Mulai mengamati setelah loader selesai, supaya animasi masuk hero terlihat.
+    onAppReady(() => elements.forEach(element => observer.observe(element)));
 });
 
 /* =========================================================

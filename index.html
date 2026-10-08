@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Page loader: tandai halaman "sedang loading" sebelum first paint.
+         Kelasnya dilepas oleh script.js; failsafe 12 detik jika script.js gagal dimuat.
+         Tanpa JavaScript kelas ini tidak pernah ada, jadi loader otomatis tersembunyi. -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add("is-loading");
+            setTimeout(function () { root.classList.remove("is-loading"); }, 12000);
+        })();
+    </script>
+    <link rel="preload" as="image" href="Assets/loadingpage1.gif">
+
     <title>Andika Akmal Ramadhan — UI/UX Designer &amp; Frontend </title>
     <meta name="description" content="Informatics Engineering portfolio of Andika Akmal Ramadhan — UI/UX design and frontend engineering.">
     <meta name="theme-color" content="#ffffff">
@@ -17,10 +29,12 @@
 
     <link rel="icon" type="image/svg+xml" href="Assets/icontitle.svg">
 
-    <!-- Fonts: preconnect + link (tidak lagi @import di dalam CSS, supaya tidak memblokir render) -->
+    <!-- Fonts: preconnect + stylesheet non-blocking (media="print" lalu diaktifkan saat selesai dimuat).
+         Jika Google Fonts lambat/terblokir, halaman dan script.js tetap jalan dengan font cadangan. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&display=swap"></noscript>
 
     <link rel="stylesheet" href="style.css">
 
@@ -35,6 +49,16 @@
 </head>
 
 <body>
+
+    <!-- =========================================================
+         PAGE LOADER
+         Tampil saat halaman pertama kali dibuka, hilang otomatis
+         setelah semua aset siap (lihat modul PAGE LOADER di script.js).
+    ========================================================== -->
+    <div class="loader" id="loader" role="status" aria-live="polite">
+        <img class="loader-gif" src="Assets/loadingpage1.gif" alt="" width="500" height="500" decoding="async" fetchpriority="high">
+        <span class="loader-label">Loading…</span>
+    </div>
 
     <div class="custom-cursor" id="customCursor" aria-hidden="true"></div>
 
