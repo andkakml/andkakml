@@ -12,6 +12,7 @@
     8. ACCESSIBILITY / UTILITIES
     9. PAGE LOADER
    10. HIDDEN SCROLLBAR
+   (SKILLS: kartu skill dengan artwork SVG, di bagian 2)
 ========================================================= */
 
 /* =========================================================
@@ -722,6 +723,10 @@ a {
 
 /* =========================================================
    SKILLS
+   Kartu skill dengan artwork SVG dekoratif yang "menyembur" dari
+   pojok kanan bawah. Per kartu: --tint (RGB) mewarnai latar & bayangan hover.
+   Artwork ada di index.html (.skill-art); tiap bagiannya bertanda
+   .art-piece dengan --d (urutan muncul).
 ========================================================= */
 .skills {
     width: 100%;
@@ -733,67 +738,168 @@ a {
 }
 
 .skill-card {
+    --tint: 162 89 255;
     height: clamp(190px, 25vh, 245px);
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    padding: 30px 24px 24px;
+    padding: 24px 26px 22px;
+    border: 1px solid #e3e3e3;
+    border-radius: 24px;
     position: relative;
     overflow: hidden;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background:
+        radial-gradient(circle at 10% 8%, rgb(var(--tint) / .14) 0, transparent 52%),
+        #fff;
+    /* translate (bukan transform): animasi reveal mengunci transform dengan fill-mode forwards */
     transition:
-        transform .55s var(--ease),
+        translate .6s var(--ease),
+        box-shadow .6s var(--ease),
         border-color .4s ease;
 }
 
-.skill-card:hover {
-    transform: translateY(-9px);
-    border-color: #aaa;
+.skill-card--figma  { --tint: 162 89 255; }
+.skill-card--vscode { --tint: 31 156 240; }
+.skill-card--canva  { --tint: 0 196 204; }
+
+@media (hover: hover) {
+    .skill-card:hover {
+        translate: 0 -8px;
+        border-color: rgb(var(--tint) / .55);
+        box-shadow: 0 28px 42px -24px rgb(var(--tint) / .6);
+    }
+
+    .skill-card:hover .skill-art {
+        translate: -6px -6px;
+        scale: 1.05;
+    }
 }
 
-.skill-card:nth-child(1) {
-    background:
-        radial-gradient(circle at 82% 75%, #f2b6b6 0, transparent 50%),
-        radial-gradient(circle at 25% 25%, #ddd0ff 0, transparent 60%),
-        #fff;
+/* ---------- Artwork ---------- */
+.skill-art {
+    position: absolute;
+    right: -3%;
+    bottom: -5%;
+    width: 68%;
+    height: auto;
+    z-index: -1;
+    pointer-events: none;
+    transform-origin: 100% 100%;
+    transition: translate .8s var(--ease), scale .8s var(--ease);
 }
 
-.skill-card:nth-child(2) {
-    background:
-        radial-gradient(circle at 82% 72%, #bce3f7 0, transparent 55%),
-        #fff;
+@keyframes artIn {
+    from {
+        opacity: 0;
+        transform: translate(16px, 20px) scale(.84);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
 }
 
-.skill-card:nth-child(3) {
-    background:
-        radial-gradient(circle at 82% 70%, #cbb7ff 0, transparent 55%),
-        radial-gradient(circle at 25% 25%, #c4fff2 0, transparent 65%),
-        #fff;
+/* Tumbuh dari pojok saat kartu muncul. Sebelum .is-visible kartu masih transparan,
+   dan tanpa JavaScript artwork tampil statis. */
+.skill-card.is-visible .art-piece {
+    transform-box: fill-box;
+    transform-origin: 85% 100%;
+    animation: artIn .9s var(--ease) both;
+    animation-delay: calc(.35s + var(--d, 0) * .09s);
+}
+
+/* ---------- Isi kartu ---------- */
+.skill-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
 }
 
 .skill-icon {
-    width: 52px;
-    height: 52px;
-    margin-bottom: 36px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
 }
 
 .skill-icon img {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     display: block;
     object-fit: contain;
     object-position: left center;
+    filter: drop-shadow(0 8px 12px rgb(var(--tint) / .28));
+}
+
+.skill-index {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    font-variant-numeric: tabular-nums;
+    color: #8a8a8a;
 }
 
 .skill-label {
-    font-size: 14px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    letter-spacing: .02em;
+    color: #5f5f5f;
 }
 
 .skill-name {
-    font-size: clamp(25px, 2vw, 31px);
+    font-size: clamp(26px, 2.1vw, 33px);
     line-height: 1;
+    letter-spacing: -.8px;
+}
+
+.skill-tags {
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+}
+
+.skill-tags li {
+    padding: 4px 10px;
+    border: 1px solid rgba(0, 0, 0, .13);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .72);
+    font-size: 12px;
+    line-height: 1.3;
+    color: #444;
+    white-space: nowrap;
+}
+
+/* Layar menengah: tag ke-3 disembunyikan agar tidak menabrak artwork. */
+@media (max-width: 1300px) {
+    .skill-tags li:nth-child(3) {
+        display: none;
+    }
+}
+
+/* Tablet & mobile: kartu sempit, tag disembunyikan, artwork sedikit diperkecil. */
+@media (max-width: 1100px) {
+    .skill-tags {
+        display: none;
+    }
+
+    .skill-art {
+        width: 70%;
+        right: -4%;
+    }
+}
+
+/* Kartu paling sempit (761-900px, tiga kolom): geser artwork sedikit ke kanan
+   agar gelombang/blob tidak menyentuh nama skill. */
+@media (min-width: 761px) and (max-width: 900px) {
+    .skill-art {
+        width: 66%;
+        right: -7%;
+    }
 }
 
 /* =========================================================
@@ -1939,14 +2045,13 @@ footer {
     .skill-card {
         height: 176px;
         min-height: 0;
-        padding: 22px 20px 20px;
-        border-radius: 17px;
+        padding: 20px 20px 18px;
+        border-radius: 20px;
     }
 
     .skill-icon {
         width: 42px;
         height: 42px;
-        margin-bottom: 28px;
     }
 
     .skill-icon img {
@@ -1956,6 +2061,11 @@ footer {
 
     .skill-name {
         font-size: 26px;
+    }
+
+    .skill-art {
+        width: 70%;
+        right: -4%;
     }
 
     /* ---------- Projects ---------- */

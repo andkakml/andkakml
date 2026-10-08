@@ -304,31 +304,168 @@
 
             <div class="skills">
 
-                <article class="skill-card reveal delay-1">
-                    <div class="skill-icon">
-                        <!-- ELEMENT: Figma icon -->
-                        <img src="Assets/Figma.png" alt="Figma icon" loading="lazy" decoding="async">
+                <article class="skill-card skill-card--figma reveal delay-1">
+                    <!-- Artwork dekoratif (SVG orisinal). Warna & bentuk bisa diubah langsung di sini. -->
+                    <svg class="skill-art skill-art--figma" viewBox="0 0 240 170" aria-hidden="true" focusable="false">
+                        <defs>
+                            <clipPath id="figmaBlob"><path d="M240 44C225 42 209 51 202 67C195 84 179 91 171 105C163 119 168 134 160 148C156 158 158 170 170 170H240Z"/></clipPath>
+                            <clipPath id="figmaCircle"><circle cx="206" cy="126" r="27"/></clipPath>
+                        </defs>
+                        <!-- titik hatch biru (garis diagonal putus-putus) -->
+                        <g class="art-piece" style="--d:4">
+                            <g fill="none" stroke="#1ABCFE" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 5.4">
+                                <path d="M112 96L142 62"/><path d="M120 98L150 64"/><path d="M128 100L158 66"/><path d="M136 102L166 68"/><path d="M144 104L174 70"/><path d="M152 106L182 72"/>
+                            </g>
+                        </g>
+                        <!-- blob ungu besar di pojok -->
+                        <g class="art-piece" style="--d:0">
+                            <path d="M240 44C225 42 209 51 202 67C195 84 179 91 171 105C163 119 168 134 160 148C156 158 158 170 170 170H240Z" fill="#A259FF"/>
+                            <g clip-path="url(#figmaBlob)" fill="none" stroke="#C7A2FF" stroke-width="2.2" stroke-linecap="round">
+                                <path d="M214 62C209 84 198 104 192 132"/><path d="M226 56C222 84 212 112 207 150"/><path d="M200 82C196 100 186 114 182 138"/>
+                            </g>
+                        </g>
+                        <!-- lingkaran koral -->
+                        <g class="art-piece" style="--d:1">
+                            <circle cx="206" cy="126" r="27" fill="#FF7262"/>
+                            <g clip-path="url(#figmaCircle)" fill="none" stroke="#FFB3A8" stroke-width="2" stroke-linecap="round">
+                                <path d="M192 108C190 124 194 140 198 152"/><path d="M204 102C202 122 206 140 210 156"/>
+                            </g>
+                        </g>
+                        <!-- setengah lingkaran oranye -->
+                        <g class="art-piece" style="--d:2">
+                            <path d="M126 170A32 32 0 0 1 190 170Z" fill="#F24E1E"/>
+                            <path d="M141 170C142 160 148 154 156 152" fill="none" stroke="#FF9B7D" stroke-width="2" stroke-linecap="round"/>
+                        </g>
+                        <!-- daun hijau + titik kecil -->
+                        <g class="art-piece" style="--d:3">
+                            <rect x="148" y="104" width="15" height="42" rx="7.5" fill="#0ACF83" transform="rotate(26 155 125)"/>
+                            <circle cx="176" cy="46" r="3.4" fill="#FF7262"/>
+                            <circle cx="130" cy="130" r="3" fill="#A259FF"/>
+                            <circle cx="222" cy="86" r="3" fill="#0ACF83"/>
+                        </g>
+                    </svg>
+
+                    <div class="skill-top">
+                        <div class="skill-icon">
+                            <!-- ELEMENT: Figma icon -->
+                            <img src="Assets/Figma.png" alt="Figma icon" loading="lazy" decoding="async">
+                        </div>
+                        <span class="skill-index" aria-hidden="true">01</span>
                     </div>
-                    <p class="skill-label">UI/UX Design</p>
-                    <h3 class="skill-name">Figma</h3>
+
+                    <div class="skill-body">
+                        <p class="skill-label">UI/UX Design</p>
+                        <h3 class="skill-name">Figma</h3>
+                        <!-- TODO: sesuaikan tag dengan hal yang benar-benar kamu kerjakan di Figma -->
+                        <ul class="skill-tags"><li>Wireframe</li><li>Prototype</li><li>UI Kit</li></ul>
+                    </div>
                 </article>
 
-                <article class="skill-card reveal delay-2">
-                    <div class="skill-icon">
-                        <!-- ELEMENT: VS Code icon -->
-                        <img src="Assets/vscode.png" alt="Visual Studio Code icon" loading="lazy" decoding="async">
+                <article class="skill-card skill-card--vscode reveal delay-2">
+                    <!-- Artwork dekoratif (SVG orisinal). Warna & bentuk bisa diubah langsung di sini. -->
+                    <svg class="skill-art skill-art--vscode" viewBox="0 0 240 170" aria-hidden="true" focusable="false">
+                        <defs>
+                            <clipPath id="vsWaveDark"><path d="M64 170C72 140 100 116 136 116C168 116 180 96 208 92C224 90 234 96 240 102V170Z"/></clipPath>
+                            <clipPath id="vsWaveMid"><path d="M108 170C116 146 142 128 174 128C200 128 220 118 240 110V170Z"/></clipPath>
+                        </defs>
+                        <!-- titik hatch biru -->
+                        <g class="art-piece" style="--d:4">
+                            <g fill="none" stroke="#0B63B5" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 5.4">
+                                <path d="M96 84L124 50"/><path d="M104 86L132 52"/><path d="M112 88L140 54"/><path d="M120 90L148 56"/><path d="M128 92L156 58"/>
+                            </g>
+                        </g>
+                        <!-- matahari kuning -->
+                        <g class="art-piece" style="--d:1">
+                            <circle cx="206" cy="70" r="19" fill="#FFC83D"/>
+                            <path d="M194 62C198 56 206 54 212 56" fill="none" stroke="#FFE08A" stroke-width="2" stroke-linecap="round"/>
+                        </g>
+                        <!-- sapuan kuas biru muda -->
+                        <g class="art-piece" style="--d:2">
+                            <path d="M88 108C112 90 146 86 178 98" fill="none" stroke="#8FD0FF" stroke-width="11" stroke-linecap="round"/>
+                            <path d="M100 104C122 92 148 90 168 96" fill="none" stroke="#C7E8FF" stroke-width="1.8" stroke-linecap="round"/>
+                        </g>
+                        <!-- gelombang biru tua -->
+                        <g class="art-piece" style="--d:0">
+                            <path d="M64 170C72 140 100 116 136 116C168 116 180 96 208 92C224 90 234 96 240 102V170Z" fill="#0B63B5"/>
+                            <g clip-path="url(#vsWaveDark)" fill="none" stroke="#2F86D6" stroke-width="2" stroke-linecap="round">
+                                <path d="M92 150C104 136 118 128 134 126"/><path d="M108 160C118 146 132 138 150 134"/>
+                            </g>
+                        </g>
+                        <!-- gelombang biru terang + baris "kode" -->
+                        <g class="art-piece" style="--d:3">
+                            <path d="M108 170C116 146 142 128 174 128C200 128 220 118 240 110V170Z" fill="#1F9CF0"/>
+                            <g clip-path="url(#vsWaveMid)" fill="none" stroke="#FFFFFF" stroke-opacity=".9" stroke-width="3.4" stroke-linecap="round">
+                                <path d="M150 142H186"/><path d="M162 151H194"/><path d="M150 160H174"/>
+                            </g>
+                        </g>
+                    </svg>
+
+                    <div class="skill-top">
+                        <div class="skill-icon">
+                            <!-- ELEMENT: VsCode icon -->
+                            <img src="Assets/vscode.png" alt="Visual Studio Code icon" loading="lazy" decoding="async">
+                        </div>
+                        <span class="skill-index" aria-hidden="true">02</span>
                     </div>
-                    <p class="skill-label">Programming</p>
-                    <h3 class="skill-name">VsCode</h3>
+
+                    <div class="skill-body">
+                        <p class="skill-label">Programming</p>
+                        <h3 class="skill-name">VsCode</h3>
+                        <!-- TODO: sesuaikan tag dengan hal yang benar-benar kamu kerjakan di VsCode -->
+                        <ul class="skill-tags"><li>HTML</li><li>CSS</li><li>JS</li></ul>
+                    </div>
                 </article>
 
-                <article class="skill-card reveal delay-3">
-                    <div class="skill-icon">
-                        <!-- ELEMENT: Canva icon -->
-                        <img src="Assets/canva.png" alt="Canva icon" loading="lazy" decoding="async">
+                <article class="skill-card skill-card--canva reveal delay-3">
+                    <!-- Artwork dekoratif (SVG orisinal). Warna & bentuk bisa diubah langsung di sini. -->
+                    <svg class="skill-art skill-art--canva" viewBox="0 0 240 170" aria-hidden="true" focusable="false">
+                        <defs>
+                            <clipPath id="canvaBlob"><path d="M240 84C220 90 204 108 202 130C200 150 206 170 206 170H240Z"/></clipPath>
+                        </defs>
+                        <!-- titik hatch ungu -->
+                        <g class="art-piece" style="--d:5">
+                            <g fill="none" stroke="#7D2AE8" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 5.4">
+                                <path d="M84 118L104 88"/><path d="M92 120L112 90"/><path d="M100 122L120 92"/><path d="M108 124L128 94"/><path d="M116 126L136 96"/>
+                            </g>
+                        </g>
+                        <!-- blob ungu di pojok -->
+                        <g class="art-piece" style="--d:0">
+                            <path d="M240 84C220 90 204 108 202 130C200 150 206 170 206 170H240Z" fill="#7D2AE8"/>
+                            <g clip-path="url(#canvaBlob)" fill="none" stroke="#A66BF5" stroke-width="2" stroke-linecap="round">
+                                <path d="M226 96C220 116 218 140 220 164"/><path d="M236 100C232 120 232 144 234 166"/>
+                            </g>
+                        </g>
+                        <!-- batang -->
+                        <path class="art-piece" style="--d:1" d="M214 170C204 140 184 118 160 98C144 84 134 66 130 40" fill="none" stroke="#0B7F87" stroke-width="3.2" stroke-linecap="round"/>
+                        <g class="art-piece art-leaf" style="--d:2"><g transform="translate(205 149) rotate(-77) scale(1.0)"><path d="M0 0C8-10 27-10 36 0C27 10 8 10 0 0Z" fill="#00C4CC" stroke="#0B7F87" stroke-width="1.7"/><path d="M5 0H31" stroke="#0B7F87" stroke-width="1.5" stroke-linecap="round"/></g></g>
+                        <g class="art-piece art-leaf" style="--d:2"><g transform="translate(192 130) rotate(-170) scale(1.0)"><path d="M0 0C8-10 27-10 36 0C27 10 8 10 0 0Z" fill="#7FE3E8" stroke="#0B7F87" stroke-width="1.7"/><path d="M5 0H31" stroke="#0B7F87" stroke-width="1.5" stroke-linecap="round"/></g></g>
+                        <g class="art-piece art-leaf" style="--d:3"><g transform="translate(177 113.5) rotate(-93) scale(0.94)"><path d="M0 0C8-10 27-10 36 0C27 10 8 10 0 0Z" fill="#00C4CC" stroke="#0B7F87" stroke-width="1.7"/><path d="M5 0H31" stroke="#0B7F87" stroke-width="1.5" stroke-linecap="round"/></g></g>
+                        <g class="art-piece art-leaf" style="--d:3"><g transform="translate(160 98) rotate(-178) scale(0.9)"><path d="M0 0C8-10 27-10 36 0C27 10 8 10 0 0Z" fill="#7FE3E8" stroke="#0B7F87" stroke-width="1.7"/><path d="M5 0H31" stroke="#0B7F87" stroke-width="1.5" stroke-linecap="round"/></g></g>
+                        <g class="art-piece art-leaf" style="--d:4"><g transform="translate(149 87) rotate(-87) scale(0.84)"><path d="M0 0C8-10 27-10 36 0C27 10 8 10 0 0Z" fill="#00C4CC" stroke="#0B7F87" stroke-width="1.7"/><path d="M5 0H31" stroke="#0B7F87" stroke-width="1.5" stroke-linecap="round"/></g></g>
+                        <g class="art-piece art-leaf" style="--d:4"><g transform="translate(140.5 73.5) rotate(-160) scale(0.78)"><path d="M0 0C8-10 27-10 36 0C27 10 8 10 0 0Z" fill="#7FE3E8" stroke="#0B7F87" stroke-width="1.7"/><path d="M5 0H31" stroke="#0B7F87" stroke-width="1.5" stroke-linecap="round"/></g></g>
+                        <g class="art-piece art-leaf" style="--d:5"><g transform="translate(134 58) rotate(-107) scale(0.72)"><path d="M0 0C8-10 27-10 36 0C27 10 8 10 0 0Z" fill="#00C4CC" stroke="#0B7F87" stroke-width="1.7"/><path d="M5 0H31" stroke="#0B7F87" stroke-width="1.5" stroke-linecap="round"/></g></g>
+                        <!-- bulatan merah muda + titik -->
+                        <g class="art-piece" style="--d:3">
+                            <circle cx="222" cy="58" r="11" fill="#FF6FB5"/>
+                            <circle cx="120" cy="150" r="3.2" fill="#7D2AE8"/>
+                            <circle cx="196" cy="30" r="3" fill="#00C4CC"/>
+                        </g>
+                    </svg>
+
+                    <div class="skill-top">
+                        <div class="skill-icon">
+                            <!-- ELEMENT: Canva icon -->
+                            <img src="Assets/canva.png" alt="Canva icon" loading="lazy" decoding="async">
+                        </div>
+                        <span class="skill-index" aria-hidden="true">03</span>
                     </div>
-                    <p class="skill-label">Editing</p>
-                    <h3 class="skill-name">Canva</h3>
+
+                    <div class="skill-body">
+                        <p class="skill-label">Editing</p>
+                        <h3 class="skill-name">Canva</h3>
+                        <!-- TODO: sesuaikan tag dengan hal yang benar-benar kamu kerjakan di Canva -->
+                        <ul class="skill-tags"><li>Poster</li><li>Social Media</li><li>Slides</li></ul>
+                    </div>
                 </article>
 
             </div>
