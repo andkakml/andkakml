@@ -322,6 +322,22 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     cards.forEach(card => {
+        const demoButton = card.querySelector(".project-live-demo");
+
+        demoButton?.addEventListener("click", event => {
+            // Tombol disiapkan sekarang; URL demo akan dihubungkan nanti.
+            // Mencegah klik tombol membuka modal detail kartu.
+            event.preventDefault();
+            event.stopPropagation();
+        });
+
+        demoButton?.addEventListener("keydown", event => {
+            // Enter/Space pada tombol demo tidak boleh memicu modal kartu.
+            if (event.key === "Enter" || event.key === " ") {
+                event.stopPropagation();
+            }
+        });
+
         card.addEventListener("click", () => openProject(card));
         card.addEventListener("keydown", event => {
             if (event.key === "Enter" || event.key === " ") {
@@ -844,6 +860,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const projectsTitle = document.querySelector(".projects-title");
     const projectsIntro = document.querySelector(".projects-intro");
     const projectCards = [...document.querySelectorAll(".project-card")];
+    const projectLiveDemoButtons = [...document.querySelectorAll(".project-live-demo")];
 
     const contactKicker = document.querySelector(".contact-intro .contact-kicker");
     const contactTitle = document.querySelector(".contact-title");
@@ -1079,6 +1096,20 @@ document.addEventListener("DOMContentLoaded", () => {
             card.dataset.tags = project.tags;
             card.dataset.description = project.description;
             card.setAttribute("aria-label", project.aria);
+        });
+
+        projectLiveDemoButtons.forEach((button, index) => {
+            const project = projectTranslations[language][index + 1];
+            const label = button.querySelector(".project-live-demo-label");
+            if (label) label.textContent = language === "id" ? "LIHAT DEMO" : "LIVE DEMO";
+            if (project) {
+                button.setAttribute(
+                    "aria-label",
+                    language === "id"
+                        ? `Lihat demo untuk ${project.title}; tautan belum diatur`
+                        : `Live demo for ${project.title}; link not configured yet`
+                );
+            }
         });
 
         if (contactKicker) contactKicker.textContent = t.contactKicker;

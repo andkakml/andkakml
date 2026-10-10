@@ -1064,6 +1064,70 @@ a {
     color: #666;
 }
 
+.project-info-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-width: 0;
+    margin-top: 12px;
+}
+
+.project-info-actions .project-tags {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.project-live-demo {
+    flex: 0 0 auto;
+    min-width: 100px;
+    min-height: 31px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 1px solid #050505;
+    border-radius: 999px;
+    background: #050505;
+    color: #fff;
+    font: inherit;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .65px;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        background .25s ease,
+        color .25s ease,
+        border-color .25s ease,
+        transform .3s var(--ease);
+}
+
+.project-live-demo:hover {
+    background: #fff;
+    color: #050505;
+    border-color: #050505;
+    transform: translateY(-1px);
+}
+
+.project-live-demo-arrow {
+    display: inline-block;
+    font-size: 13px;
+    line-height: 1;
+    transition: transform .3s var(--ease);
+}
+
+.project-live-demo:hover .project-live-demo-arrow {
+    transform: translate(2px, -2px);
+}
+
+.project-live-demo:focus-visible {
+    outline: 2px solid #050505;
+    outline-offset: 3px;
+}
+
 .project-card::after {
     content: "OPEN";
     position: absolute;
@@ -2139,6 +2203,24 @@ footer {
         bottom: 12px;
         padding: 13px 14px;
         border-radius: 13px;
+    }
+
+    .project-info-actions {
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .project-live-demo {
+        min-width: 96px;
+        min-height: 29px;
+        padding: 0 8px;
+        gap: 5px;
+        font-size: 8px;
+        letter-spacing: .4px;
+    }
+
+    .project-live-demo-arrow {
+        font-size: 12px;
     }
 
     .project-arrow {
